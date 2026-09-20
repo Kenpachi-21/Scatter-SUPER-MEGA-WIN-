@@ -1,4 +1,4 @@
-  :root {
+:root {
     --navy-900: #0d2246;
     --navy-800: #12305e;
     --navy-700: #1a3f78;
@@ -181,3 +181,34 @@
   }
   @media (max-width: 480px) { nav li:nth-child(n+4) { display: none; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+
+/* ---------- start dialog ---------- */
+#startDialog {
+  border: 0; border-radius: 16px; padding: 32px; margin: auto;
+  width: min(460px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow-y: auto;
+  background: #fff; color: #10203f; box-shadow: 0 30px 80px rgba(4,12,30,.55);
+}
+#startDialog::backdrop { background: rgba(8,18,40,.72); }
+.sd-step[hidden] { display: none; }
+#startDialog h2 { font-size: 1.4rem; line-height: 1.2; margin-bottom: 10px; }
+#startDialog p { color: #3b4a68; font-size: .95rem; }
+.sd-small { font-size: .8rem !important; margin-top: 12px; }
+.sd-close {
+  position: absolute; top: 10px; right: 12px; width: 36px; height: 36px;
+  font-size: 1.6rem; line-height: 1; background: none; border: 0; color: #5b6b8c; cursor: pointer; border-radius: 8px;
+}
+.sd-close:hover { color: #10203f; }
+.sd-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.sd-ghost { background: #fff; border-color: #c9d4e8; color: #10203f; }
+.sd-ghost:hover { border-color: var(--navy-600); }
+#detailsForm label { display: block; font-size: .85rem; font-weight: 600; margin-top: 14px; }
+#detailsForm input[type="text"], #detailsForm input[type="email"], #detailsForm input[type="number"], #detailsForm select {
+  display: block; width: 100%; margin-top: 6px; padding: 11px 12px;
+  font: inherit; font-size: .95rem; color: #10203f; background: #f2f5fb;
+  border: 2px solid #dfe6f3; border-radius: 10px;
+}
+#detailsForm input:focus, #detailsForm select:focus { outline: none; border-color: var(--navy-600); }
+#detailsForm fieldset { border: 0; margin-top: 16px; }
+#detailsForm legend { font-size: .85rem; font-weight: 600; padding: 0; }
+#detailsForm label.radio { display: flex; align-items: center; gap: 8px; font-weight: 500; margin-top: 8px; }
+.sd-error { color: #b42323 !important; font-weight: 600; margin-top: 14px; min-height: 1.2em; }
