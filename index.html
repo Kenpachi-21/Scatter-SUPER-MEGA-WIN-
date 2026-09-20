@@ -40,7 +40,7 @@
         <p class="lead">Taking your license exam doesn't have to be nerve-racking. We'll guide you every step of the way with realistic practice tests built to match the real thing.</p>
         <p class="lead">Not sure where to start or what license to get? We're here to help!</p>
         <div class="cta-row">
-          <a class="btn btn-yellow" href="#practice">Start Now</a>
+          <a class="btn btn-yellow" href="#practice" data-start>Start Now</a>
           <a class="btn btn-ghost" href="#licenses">Browse License Types</a>
         </div>
       </div>
@@ -138,15 +138,67 @@
     </div>
   </section>
 
-  <!-- FINAL CTA -->
   <section class="final" id="start">
     <div class="wrap">
       <h2>Ready to pass on your first try?</h2>
       <p>Pick a license type and take your first practice test in a few minutes.</p>
-      <a class="btn btn-yellow" href="#licenses">Start Now</a>
+      <a class="btn btn-yellow" href="#licenses" data-start>Start Now</a>
     </div>
   </section>
 </main>
+
+<dialog id="startDialog" aria-labelledby="sd-title">
+  <button class="sd-close" type="button" data-close aria-label="Close">&times;</button>
+
+  <div class="sd-step" data-step="ask">
+    <h2 id="sd-title">Ready to get started?</h2>
+    <p>Would you like to enter a few details about yourself? We'll use them to point you to the right license reviewer.</p>
+    <div class="sd-actions">
+      <button class="btn btn-yellow" type="button" data-yes>Yes, enter my details</button>
+      <button class="btn sd-ghost" type="button" data-no>Not now</button>
+    </div>
+  </div>
+
+  <form class="sd-step" data-step="form" id="detailsForm" hidden novalidate>
+    <h2>Your details</h2>
+    <label>Full name
+      <input type="text" name="name" autocomplete="name" required>
+    </label>
+    <label>Email
+      <input type="email" name="email" autocomplete="email" required>
+    </label>
+    <label>Age
+      <input type="number" name="age" min="1" max="120" inputmode="numeric" required>
+    </label>
+    <label>License you're applying for
+      <select name="license" required>
+        <option value="">Choose one</option>
+        <option value="sp">Student Permit</option>
+        <option value="np">Non-Professional License</option>
+        <option value="pro">Professional License</option>
+      </select>
+    </label>
+    <fieldset>
+      <legend>Is this your first time taking the exam?</legend>
+      <label class="radio"><input type="radio" name="attempt" value="first" checked> First time</label>
+      <label class="radio"><input type="radio" name="attempt" value="retake"> I'm retaking it</label>
+    </fieldset>
+    <p class="sd-error" id="sdError" role="alert"></p>
+    <div class="sd-actions">
+      <button class="btn btn-yellow" type="submit">Submit details</button>
+      <button class="btn sd-ghost" type="button" data-back>Back</button>
+    </div>
+  </form>
+
+  <div class="sd-step" data-step="done" hidden>
+    <h2 id="sdDoneTitle">Thank you!</h2>
+    <p id="sdDoneText"></p>
+    <p class="sd-small">Your details stay on this page. They are not saved or sent anywhere.</p>
+    <div class="sd-actions">
+      <button class="btn btn-yellow" type="button" data-practice>Start practising</button>
+    </div>
+  </div>
+</dialog>
 
 <footer>
   <div class="wrap">
@@ -155,57 +207,6 @@
   </div>
 </footer>
 
-<script>
-(function () {
-  var Q = [
-    { q: "You reach an intersection where the traffic light is flashing red. What should you do?",
-      o: ["Slow down and keep going", "Come to a full stop, then go when it is safe", "Stop only if other cars are coming", "Honk and proceed"],
-      a: 1, why: "A flashing red light works like a stop sign. Stop completely, check, then proceed when clear." },
-    { q: "What does a solid yellow line at the center of the road mean?",
-      o: ["Overtaking is not allowed", "Overtaking is allowed with care", "The road is one-way", "Parking is allowed"],
-      a: 0, why: "A solid yellow center line means you may not overtake or cross it." },
-    { q: "A pedestrian is crossing at a marked crosswalk. You should:",
-      o: ["Sound your horn so they hurry", "Speed up to pass before them", "Give way and let them cross", "Flash your headlights and continue"],
-      a: 2, why: "Pedestrians at a crosswalk have the right of way. Slow down and let them finish crossing." }
-  ];
-  var i = 0, answered = false;
-  var qtext = document.getElementById("qtext"),
-      qopts = document.getElementById("qopts"),
-      qwhy = document.getElementById("qwhy"),
-      qnext = document.getElementById("qnext"),
-      qcount = document.getElementById("qcount");
-
-  function render() {
-    var item = Q[i]; answered = false;
-    qtext.textContent = item.q;
-    qwhy.textContent = "";
-    qcount.textContent = (i + 1) + " of " + Q.length;
-    qnext.disabled = true;
-    qnext.textContent = i === Q.length - 1 ? "Start over" : "Next question";
-    qopts.innerHTML = "";
-    item.o.forEach(function (text, n) {
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "opt"; b.textContent = text;
-      b.addEventListener("click", function () { pick(n); });
-      qopts.appendChild(b);
-    });
-  }
-  function pick(n) {
-    if (answered) return; answered = true;
-    var item = Q[i], btns = qopts.querySelectorAll(".opt");
-    btns.forEach(function (b, k) {
-      b.disabled = true;
-      if (k === item.a) b.classList.add("right");
-      else if (k === n) b.classList.add("wrong");
-    });
-    qwhy.textContent = (n === item.a ? "Correct. " : "Not quite. ") + item.why;
-    qnext.disabled = false;
-  }
-  qnext.addEventListener("click", function () {
-    i = (i + 1) % Q.length; render();
-  });
-  render();
-})();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
